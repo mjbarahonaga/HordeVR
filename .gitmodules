@@ -1,0 +1,3 @@
+[submodule "Assets/Plugins/UltimateXR"]
+	path = Assets/Plugins/UltimateXR
+	url = https://github.com/VRMADA/ultimatexr-unity
