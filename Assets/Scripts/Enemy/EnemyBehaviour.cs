@@ -86,7 +86,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetUpEnemy()
     {
         _navMeshAgent.speed = Data.Speed;
-        _navMeshAgent.stoppingDistance = DistanceAttacking;
+        _navMeshAgent.stoppingDistance = DistanceAttacking - 1f < 0 ? 0 : DistanceAttacking - 1f;
         _reward = Data.Reward;
         _currentHP = Data.HP;
     }
@@ -135,7 +135,7 @@ public class EnemyBehaviour : MonoBehaviour
             if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
             {
                 //if (_navMeshAgent.velocity.sqrMagnitude == 0f)
-                if ((_targetPos - _myTransform.position).sqrMagnitude <= (DistanceAttacking + 1.5f))
+                if ((_targetPos - _myTransform.position).sqrMagnitude <= (DistanceAttacking + 2f))
                 {
                     //if ((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking)
                         return true;
@@ -153,7 +153,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void CheckAttack()
     {
-        if((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking)
+        if((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking + 2f)
         {
             Debug.Log("successful attack");
         }

@@ -18,4 +18,4 @@ MonoBehaviour:
   Speed: 2
   Reward: 1
   Prefab: {fileID: 8833494320035947194, guid: 32728fd413efcf2449782598c2a40bd8, type: 3}
-  MaxPool: 20
+  MaxPool: 40

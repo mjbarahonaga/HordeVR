@@ -364,7 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemySpawnByHordeList:
   - Type: 1
-    HowMany: 0
+    HowMany: 3
     PerHorde: 1
     DelayBetweenSpawn: 1
   - Type: 2
