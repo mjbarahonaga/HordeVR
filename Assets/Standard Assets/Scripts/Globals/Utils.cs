@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using MEC;
+using UnityEngine;
 
 public static class Utils
 {
@@ -29,6 +32,20 @@ public static class Utils
 
         // For more details, see this forum thread: https://forum.unity.com/threads/sendmessage-cannot-be-called-during-awake-checkconsistency-or-onvalidate-can-we-suppress.537265/
 
+    }
+
+    public static IEnumerator<float> EmulateUpdate(System.Action func, MonoBehaviour scr)
+    {
+        yield return Timing.WaitForOneFrame;
+        while (scr.gameObject != null)
+        {
+            if (scr.gameObject.activeInHierarchy && scr.enabled)
+            {
+                func();
+
+                yield return Timing.WaitForOneFrame;
+            }
+        }
     }
 
 }

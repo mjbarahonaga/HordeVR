@@ -13,13 +13,15 @@ public enum Enemy
 
 
 
-public class PoolEnemy_Manager : MonoBehaviour
+public class PoolEnemy_Manager : Singleton<PoolEnemy_Manager>
 {
 
     public List<PoolEnemy> EnemiesPool;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         InitPools();       
     }
 

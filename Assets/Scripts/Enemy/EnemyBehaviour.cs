@@ -5,16 +5,20 @@ using UnityEngine.Pool;
 using Sirenix.OdinInspector;
 using UnityEngine.AI;
 using MEC;
+using UltimateXR.Core;
+using UltimateXR.Avatar;
+using System;
 
 public class EnemyBehaviour : MonoBehaviour
 {
     public DataEnemy Data;
     public PoolEnemy PoolReference;
+    public float DistanceAttacking = 1f;
+    [SerializeField] private Transform _myTransform;
     [SerializeField, ReadOnly] public GameObject InstantiatePrefab;
     [SerializeField, ReadOnly] private IObjectPool<EnemyBehaviour> _pool;
     [SerializeField, ReadOnly] private Animator _animator;
     [SerializeField, ReadOnly] private NavMeshAgent _navMeshAgent;
-    [SerializeField] private Transform _myTransform;
     [SerializeField, ReadOnly] private Transform _myParentTransform;
 
     [SerializeField, ReadOnly] private int _idSpawn;
@@ -26,16 +30,22 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3 _targetPos;
     [SerializeField, ReadOnly] private int _currentHP;
     [SerializeField, ReadOnly] private int _reward;
+    [SerializeField, ReadOnly] private bool _isDie = false;
+    [SerializeField, ReadOnly] private bool _isAttacking = false;
+    [SerializeField, ReadOnly] private bool _isWalking = false;
+
+    private CoroutineHandle _updateCoroutine;
 
     public void Init(in Vector3 target, in Transform startPos)
     {
         _targetPos = target;
-        //_navMeshAgent.isStopped = true;
-
+        
         _myParentTransform.localPosition = startPos.position;
         _myTransform.localPosition = Vector3.zero;
         _navMeshAgent.Warp(_myParentTransform.position);
         _myTransform.LookAt(target);
+
+        Timing.RunCoroutine(Spawn());
     }
     public void InstanceEnemy(IObjectPool<EnemyBehaviour> pool, GameObject prefab)
     {
@@ -76,31 +86,153 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetUpEnemy()
     {
         _navMeshAgent.speed = Data.Speed;
+        _navMeshAgent.stoppingDistance = DistanceAttacking;
         _reward = Data.Reward;
         _currentHP = Data.HP;
     }
 
-    public void TakeDamage(int damage)
+    public bool TakeDamage(int damage)
     {
+        if (_isDie) return false;
+
         _currentHP -= damage;
+
         if (_currentHP <= 0)
         {
+            _isDie = true;
             Timing.RunCoroutine(Dying());
+            return true;
         }
+        Timing.RunCoroutine(Hit());
+        return true;
+    }
+
+    public void MyUpdate()
+    {
+        if (_isDie) return;
+        if (ReachedDestinationOrGaveUp())
+        {
+            if (!_isAttacking)
+            {
+                Attack();
+            }
+        }
+        else if(!_isAttacking && !_isWalking)
+        {
+            Timing.RunCoroutine(Walking());
+        }
+    }
+
+    public bool ReachedDestinationOrGaveUp()
+    {
+
+        if (!_navMeshAgent.pathPending)
+        {
+            if (_navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance)
+            {
+                //if (_navMeshAgent.velocity.sqrMagnitude == 0f)
+                if ((_targetPos - _myTransform.position).sqrMagnitude <= (DistanceAttacking + 1.5f))
+                {
+                    //if ((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void Attack()
+    {
+        Timing.RunCoroutine(Attacking());
+    }
+
+    public void CheckAttack()
+    {
+        if((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking)
+        {
+            Debug.Log("successful attack");
+        }
+    }
+
+    public IEnumerator<float> Spawn()
+    {
+        _isDie = false;
+        _animator.SetTrigger(_idSpawn);
+        float length = _animator.GetCurrentAnimatorStateInfo(_idSpawn).length;
+        yield return Timing.WaitForSeconds(length);
+        _updateCoroutine = Timing.RunCoroutine(Utils.EmulateUpdate(MyUpdate, this), Segment.LateUpdate);
+        _isWalking = false;
+    }
+
+    public IEnumerator<float> Hit()
+    {
+        _isWalking = false;
+        _isAttacking = false;
+        _navMeshAgent.isStopped = true;
+        _animator.SetTrigger(_idHit);
+        yield return Timing.WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
     }
 
     public IEnumerator<float> Dying()
     {
-        //GameManager.Instance.AddPoints(_reward);
+        Timing.KillCoroutines(_updateCoroutine);
+        GameManager.Instance.EnemyDie(Data.EnemyType, _reward);
+        
         _navMeshAgent.isStopped = true;
         _animator.SetTrigger(_idDie);
         yield return Timing.WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
         PoolReference.Pool.Release(this);
+        _isWalking = false;
     }
 
-    [Button("Release")]
-    public void prueba() => PoolReference.Pool.Release(this);
-    #region UNITY
+    public IEnumerator<float> Attacking()
+    {
+        _isWalking = false;
+        _isAttacking = true;
+        _navMeshAgent.isStopped = true;
+        _animator.SetTrigger(_idAttack);
+        yield return Timing.WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        _isAttacking = false;
+    }
 
+    public IEnumerator<float> Walking()
+    {
+        _isWalking = true;
+        _isAttacking = false;
+        _animator.SetTrigger(_idWalk);
+        _navMeshAgent.isStopped = false;
+        _navMeshAgent.SetDestination(_targetPos);
+        yield return 0f;
+    }
+
+    private void UpdateTargetLocation(object sender, UxrAvatarMoveEventArgs e)
+    {
+        _targetPos = e.NewPosition;
+        _navMeshAgent.SetDestination(_targetPos);
+        if (_isDie) return;
+        if(!ReachedDestinationOrGaveUp() && !_isWalking)
+        {
+            Timing.RunCoroutine(Walking());
+        }
+    }
+
+
+    #region UNITY
+    private void OnEnable()
+    {
+        UxrManager.AvatarMoved += UpdateTargetLocation;
+    }
+
+    private void OnDisable()
+    {
+        UxrManager.AvatarMoved -= UpdateTargetLocation;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(_myTransform.position, _myTransform.position + _myTransform.forward * DistanceAttacking);
+    }
     #endregion
 }

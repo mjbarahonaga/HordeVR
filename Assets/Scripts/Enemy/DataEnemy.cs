@@ -8,6 +8,7 @@ using UnityEngine.Pool;
 public class DataEnemy : ScriptableObject
 {
     public Enemy EnemyType;
+    public int Damage;
     public int HP;
     public float Speed;
     public int Reward;

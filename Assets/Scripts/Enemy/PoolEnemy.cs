@@ -21,10 +21,7 @@ public class PoolEnemy : MonoBehaviour
 
     public void OnTakeFromPool(EnemyBehaviour enemy) => enemy.TakeFromPool();
 
-    public void OnReturnToPool(EnemyBehaviour enemy)
-    {
-        enemy.ReturnToPool();
-    }
+    public void OnReturnToPool(EnemyBehaviour enemy) => enemy.ReturnToPool();
 
     public void OnDestroyEnemy(EnemyBehaviour enemy) => Destroy(enemy);
 }
