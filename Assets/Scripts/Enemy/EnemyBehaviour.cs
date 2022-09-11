@@ -120,6 +120,10 @@ public class EnemyBehaviour : MonoBehaviour
         else if(!_isAttacking && !_isWalking)
         {
             Timing.RunCoroutine(Walking());
+        }else
+        {
+            _isWalking = false;
+            _isAttacking = false;
         }
     }
 
@@ -159,7 +163,8 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _isDie = false;
         _animator.SetTrigger(_idSpawn);
-        float length = _animator.GetCurrentAnimatorStateInfo(_idSpawn).length;
+        float length = _animator.GetCurrentAnimatorStateInfo(0).length;
+        if (length == float.PositiveInfinity) length = 1f;
         yield return Timing.WaitForSeconds(length);
         _updateCoroutine = Timing.RunCoroutine(Utils.EmulateUpdate(MyUpdate, this), Segment.LateUpdate);
         _isWalking = false;
@@ -192,7 +197,11 @@ public class EnemyBehaviour : MonoBehaviour
         _isAttacking = true;
         _navMeshAgent.isStopped = true;
         _animator.SetTrigger(_idAttack);
-        yield return Timing.WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+        float length = _animator.GetCurrentAnimatorStateInfo(0).length / 2f;
+        // in the middle of animation, we'll check if near the player to be impacted
+        yield return Timing.WaitForSeconds(length);
+        CheckAttack();
+        yield return Timing.WaitForSeconds(length);
         _isAttacking = false;
     }
 
@@ -201,6 +210,7 @@ public class EnemyBehaviour : MonoBehaviour
         _isWalking = true;
         _isAttacking = false;
         _animator.SetTrigger(_idWalk);
+        yield return Timing.WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
         _navMeshAgent.isStopped = false;
         _navMeshAgent.SetDestination(_targetPos);
         yield return 0f;
@@ -216,7 +226,6 @@ public class EnemyBehaviour : MonoBehaviour
             Timing.RunCoroutine(Walking());
         }
     }
-
 
     #region UNITY
     private void OnEnable()
@@ -235,4 +244,12 @@ public class EnemyBehaviour : MonoBehaviour
         Gizmos.DrawLine(_myTransform.position, _myTransform.position + _myTransform.forward * DistanceAttacking);
     }
     #endregion
+
+#if UNITY_EDITOR
+    [Button("To Die")]
+    public void ToDie() => Timing.RunCoroutine(Dying());
+
+    [Button("Hit")]
+    public void ToHit() => Timing.RunCoroutine(Hit());
+#endif
 }
