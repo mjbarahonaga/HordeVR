@@ -15,7 +15,7 @@ public class PoolEnemy : MonoBehaviour
         var go = Instantiate(EnemyScriptable.Prefab, ParentContainer);
         go.Data = EnemyScriptable;
         go.PoolReference = this;
-        go.InstanceEnemy(Pool, go.gameObject);
+        go.InstanceEnemy(go.gameObject);
         return go;
     }
 

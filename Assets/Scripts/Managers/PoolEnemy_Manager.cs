@@ -34,7 +34,8 @@ public class PoolEnemy_Manager : Singleton<PoolEnemy_Manager>
                 EnemiesPool[i].OnTakeFromPool,
                 EnemiesPool[i].OnReturnToPool,
                 EnemiesPool[i].OnDestroyEnemy,
-                false, EnemiesPool[i].EnemyScriptable.MaxPool, EnemiesPool[i].EnemyScriptable.MaxPool);
+                false, EnemiesPool[i].EnemyScriptable.MaxPool, 
+                EnemiesPool[i].EnemyScriptable.MaxPool);
 
             // Instantiate all of them
             List<EnemyBehaviour> tmp = new List<EnemyBehaviour>();

@@ -11,12 +11,14 @@ using System;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    public static Action<int> OnSendAttack;
     public DataEnemy Data;
     public PoolEnemy PoolReference;
     public float DistanceAttacking = 1f;
+    [ReadOnly] public bool IsDie = false;
     [SerializeField] private Transform _myTransform;
     [SerializeField, ReadOnly] public GameObject InstantiatePrefab;
-    [SerializeField, ReadOnly] private IObjectPool<EnemyBehaviour> _pool;
+
     [SerializeField, ReadOnly] private Animator _animator;
     [SerializeField, ReadOnly] private NavMeshAgent _navMeshAgent;
     [SerializeField, ReadOnly] private Transform _myParentTransform;
@@ -30,7 +32,6 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3 _targetPos;
     [SerializeField, ReadOnly] private int _currentHP;
     [SerializeField, ReadOnly] private int _reward;
-    [SerializeField, ReadOnly] private bool _isDie = false;
     [SerializeField, ReadOnly] private bool _isAttacking = false;
     [SerializeField, ReadOnly] private bool _isWalking = false;
 
@@ -42,15 +43,17 @@ public class EnemyBehaviour : MonoBehaviour
         
         _myParentTransform.localPosition = startPos.position;
         _myTransform.localPosition = Vector3.zero;
+        if(NavMesh.SamplePosition(_myTransform.position, out NavMeshHit closesthit, 500f, NavMesh.AllAreas))
+            _myTransform.position = closesthit.position;
+        
         _navMeshAgent.Warp(_myParentTransform.position);
         _myTransform.LookAt(target);
 
         Timing.RunCoroutine(Spawn());
     }
-    public void InstanceEnemy(IObjectPool<EnemyBehaviour> pool, GameObject prefab)
+    public void InstanceEnemy(GameObject prefab)
     {
         InstantiatePrefab = prefab;
-        _pool = pool;
 
         _navMeshAgent = InstantiatePrefab.GetComponentInChildren<NavMeshAgent>();
         _animator = InstantiatePrefab.GetComponentInChildren<Animator>();
@@ -93,13 +96,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     public bool TakeDamage(int damage)
     {
-        if (_isDie) return false;
+        if (IsDie) return false;
 
         _currentHP -= damage;
 
         if (_currentHP <= 0)
         {
-            _isDie = true;
+            IsDie = true;
             Timing.RunCoroutine(Dying());
             return true;
         }
@@ -109,7 +112,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void MyUpdate()
     {
-        if (_isDie) return;
+        if (IsDie) return;
         if (ReachedDestinationOrGaveUp())
         {
             if (!_isAttacking)
@@ -155,13 +158,13 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if((_targetPos - _myTransform.position).sqrMagnitude < DistanceAttacking + 2f)
         {
-            Debug.Log("successful attack");
+            OnSendAttack?.Invoke(Data.Damage);
         }
     }
 
     public IEnumerator<float> Spawn()
     {
-        _isDie = false;
+        IsDie = false;
         _animator.SetTrigger(_idSpawn);
         float length = _animator.GetCurrentAnimatorStateInfo(0).length;
         if (length == float.PositiveInfinity) length = 1f;
@@ -220,7 +223,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         _targetPos = e.NewPosition;
         _navMeshAgent.SetDestination(_targetPos);
-        if (_isDie) return;
+        if (IsDie) return;
         if(!ReachedDestinationOrGaveUp() && !_isWalking)
         {
             Timing.RunCoroutine(Walking());

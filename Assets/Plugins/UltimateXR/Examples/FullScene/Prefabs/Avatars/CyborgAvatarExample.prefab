@@ -106,41 +106,47 @@ PrefabInstance:
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: aca19ce68968ec349b032f1084a126aa,
+      objectReference: {fileID: 11400000, guid: 7c7ca9a6a118f724fb12c79f97a8b922,
         type: 2}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: e50a2950dd4dc61438826053da2e32cd,
+      objectReference: {fileID: 11400000, guid: aca19ce68968ec349b032f1084a126aa,
         type: 2}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 539d829965a68ac498dfef7a3c0f6a02,
+      objectReference: {fileID: 11400000, guid: e50a2950dd4dc61438826053da2e32cd,
         type: 2}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: cab69ea52b2ba0245bab9a37eed2abb9,
+      objectReference: {fileID: 11400000, guid: 539d829965a68ac498dfef7a3c0f6a02,
         type: 2}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: b2d3868442d73214aa35f08a9cabd7a6,
+      objectReference: {fileID: 11400000, guid: cab69ea52b2ba0245bab9a37eed2abb9,
         type: 2}
     - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
         type: 3}
       propertyPath: _handPoses.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: b2d3868442d73214aa35f08a9cabd7a6,
+        type: 2}
+    - target: {fileID: 7011009731086812467, guid: 4eff023a7e941cd4cb62dd10b4b5469e,
+        type: 3}
+      propertyPath: _handPoses.Array.data[6]
       value: 
       objectReference: {fileID: 11400000, guid: e5ba2e3692dcea243a359c51f68c63da,
         type: 2}

@@ -723,15 +723,15 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.1
-  m_Speed: 1
-  m_Acceleration: 4
-  avoidancePriority: 17
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_Speed: 0.5
+  m_Acceleration: 2
+  avoidancePriority: 40
+  m_AngularSpeed: 240
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2.6
+  m_Height: 0.74
   m_BaseOffset: 0
   m_WalkableMask: 5
   m_ObstacleAvoidanceType: 1
@@ -3417,6 +3417,7 @@ MonoBehaviour:
   Data: {fileID: 0}
   PoolReference: {fileID: 0}
   DistanceAttacking: 3
+  IsDie: 0
   _myTransform: {fileID: 8464115459497649511}
   InstantiatePrefab: {fileID: 0}
   _animator: {fileID: 0}
@@ -3430,7 +3431,6 @@ MonoBehaviour:
   _targetPos: {x: 0, y: 0, z: 0}
   _currentHP: 0
   _reward: 0
-  _isDie: 0
   _isAttacking: 0
   _isWalking: 0
 --- !u!1 &8546170189883649449

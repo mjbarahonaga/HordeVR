@@ -1,8 +1,5 @@
-using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
+
 
 [CreateAssetMenu(fileName = "Enemy.asset", menuName = "HordeVR/Create Scriptable Enemy")]
 public class DataEnemy : ScriptableObject

@@ -143,7 +143,7 @@ public class GameManager : Singleton<GameManager>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(RefPlayer.transform.position, DistanceBetweenRespawnNeeded);
+        Gizmos.DrawWireSphere(RefPlayer.transform.position, DistanceBetweenRespawnNeeded  * 0.01f);
     }
     #endregion
 
