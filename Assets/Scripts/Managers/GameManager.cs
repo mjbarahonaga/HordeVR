@@ -68,6 +68,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int _enemiesKilled = 0;
     [SerializeField] private int _score = 0;
     [SerializeField] private Vector3 _positionPlayer;
+    private bool _alreadyStarted = false;
     #endregion
 
 
@@ -97,8 +98,10 @@ public class GameManager : Singleton<GameManager>
 
     public void StartGame()
     {
+        if (_alreadyStarted) return;
+        _alreadyStarted = true;
         OnStartingGame?.Invoke();
-        // Play AmbienceSound
+        AmbienceAudioSource.Play();
         NewHorde();
     }
 
@@ -122,7 +125,7 @@ public class GameManager : Singleton<GameManager>
 
     public void NewHorde()
     {
-        // Play NewHordeSound
+        HordeAudioSource.Play();
         ++_currentHorde;
         _currentEnemies = 0;
         int length = EnemySpawnByHordeList.Count;

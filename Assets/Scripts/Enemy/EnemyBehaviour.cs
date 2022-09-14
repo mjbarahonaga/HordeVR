@@ -23,17 +23,29 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField, ReadOnly] private NavMeshAgent _navMeshAgent;
     [SerializeField, ReadOnly] private Transform _myParentTransform;
 
-    [SerializeField, ReadOnly] private int _idSpawn;
-    [SerializeField, ReadOnly] private int _idWalk;
-    [SerializeField, ReadOnly] private int _idDie;
-    [SerializeField, ReadOnly] private int _idAttack;
-    [SerializeField, ReadOnly] private int _idHit;
+    #region Animation Id
+    [FoldoutGroup("Animation Id")] [SerializeField, ReadOnly] private int _idSpawn;
+    [FoldoutGroup("Animation Id")] [SerializeField, ReadOnly] private int _idWalk;
+    [FoldoutGroup("Animation Id")] [SerializeField, ReadOnly] private int _idDie;
+    [FoldoutGroup("Animation Id")] [SerializeField, ReadOnly] private int _idAttack;
+    [FoldoutGroup("Animation Id")] [SerializeField, ReadOnly] private int _idHit;
+    #endregion
+
 
     [SerializeField, ReadOnly] private Vector3 _targetPos;
     [SerializeField, ReadOnly] private int _currentHP;
     [SerializeField, ReadOnly] private int _reward;
     [SerializeField, ReadOnly] private bool _isAttacking = false;
     [SerializeField, ReadOnly] private bool _isWalking = false;
+
+    #region Sound
+    [FoldoutGroup("Sound")] public AudioSource MyAudioSource;
+    [FoldoutGroup("Sound")] public List<AudioClip> DyingSound;
+    [FoldoutGroup("Sound")] public List<AudioClip> HittingSound;
+    [FoldoutGroup("Sound")] public List<AudioClip> RunningSound;
+    [FoldoutGroup("Sound")] public List<AudioClip> AttackingSound;
+    #endregion
+
 
     private CoroutineHandle _updateCoroutine;
 
@@ -65,7 +77,7 @@ public class EnemyBehaviour : MonoBehaviour
             _idAttack = Animator.StringToHash("Attack");
             _idHit = Animator.StringToHash("Hit");
         }
-        //_myTransform = GetComponent<Transform>();
+        MyAudioSource = InstantiatePrefab.GetComponentInChildren<AudioSource>();   
         _myParentTransform = InstantiatePrefab.GetComponent<Transform>();
         _myTransform.localPosition = Vector3.zero;
         SetUpEnemy();
@@ -175,6 +187,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator<float> Hit()
     {
+        MyAudioSource.loop = false;
+        MyAudioSource.clip = HittingSound.GetRandom();
+        MyAudioSource.Play();
+
         _isWalking = false;
         _isAttacking = false;
         _navMeshAgent.isStopped = true;
@@ -184,6 +200,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator<float> Dying()
     {
+        MyAudioSource.loop = false;
+        MyAudioSource.clip = DyingSound.GetRandom();
+        MyAudioSource.Play();
+
         Timing.KillCoroutines(_updateCoroutine);
         GameManager.Instance.EnemyDie(Data.EnemyType, _reward);
         
@@ -196,6 +216,10 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator<float> Attacking()
     {
+        MyAudioSource.loop = false;
+        MyAudioSource.clip = AttackingSound.GetRandom();
+        MyAudioSource.Play();
+
         _isWalking = false;
         _isAttacking = true;
         _navMeshAgent.isStopped = true;
@@ -210,6 +234,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     public IEnumerator<float> Walking()
     {
+        if (!MyAudioSource.loop)
+        {
+            MyAudioSource.loop = true;
+            MyAudioSource.clip = RunningSound.GetRandom();
+            MyAudioSource.Play();
+        }
+
         _isWalking = true;
         _isAttacking = false;
         _animator.SetTrigger(_idWalk);

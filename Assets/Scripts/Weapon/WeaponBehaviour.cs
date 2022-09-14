@@ -19,9 +19,9 @@ public class WeaponBehaviour : MonoBehaviour
 
     public UxrFirearmMag MyAmmo;
 
+    public AudioSource MyAudioSource;
     public AudioClip ShootAudio;
     public AudioClip NoBulletsAudio;
-
 
     private void AmmoTarget_Removed(object sender, UxrManipulationEventArgs e)
     {
@@ -49,20 +49,33 @@ public class WeaponBehaviour : MonoBehaviour
         }
     }
 
+    private void FirstTimeGrabbed()
+    {
+        if(MyWeapon && UxrGrabManager.Instance.GetGrabbingHand(MyWeapon,0, out UxrGrabber grabber))
+        {
+            GameManager.Instance.StartGame();
+            UxrManager.AvatarsUpdated -= FirstTimeGrabbed;
+        }
+    }
+
     private void Shoot()
     {
         if(MyAmmo && MyAmmo.Rounds > 0)
         {
             MyAmmo.Rounds--;
             PoolBullet_Manager.Instance.SpawnBullet(BulletType, LocationToShoot.position, LocationToShoot.forward);
-            // Play sound Shoot
+            
+            MyAudioSource.clip = ShootAudio;
+            MyAudioSource.Play();
         }
         else
         {
-            // No Bullets
-            // Sound effect
+            MyAudioSource.clip = NoBulletsAudio;
+            MyAudioSource.Play();
         }
     }
+
+    //public void FirstTimeGrabbed()
 
     private void OnValidate()
     {
@@ -72,17 +85,19 @@ public class WeaponBehaviour : MonoBehaviour
 
             if (MyWeapon == null) MyWeapon = GetComponent<UxrGrabbableObject>();
             if (MyAmmoAnchor == null) MyAmmoAnchor = GetComponentInChildren<UxrGrabbableObjectAnchor>();
+            if (MyAudioSource == null) MyAudioSource = GetComponent<AudioSource>();
         });
     }
 
     private void OnEnable()
     {
         UxrManager.AvatarsUpdated += UxrManager_AvatarsUpdated;
+        UxrManager.AvatarsUpdated += FirstTimeGrabbed;
         MyAmmoAnchor.Placed += AmmoTarget_Placed;
         MyAmmoAnchor.Removed += AmmoTarget_Removed;
     }
 
-    
+
 
     private void OnDisable()
     {

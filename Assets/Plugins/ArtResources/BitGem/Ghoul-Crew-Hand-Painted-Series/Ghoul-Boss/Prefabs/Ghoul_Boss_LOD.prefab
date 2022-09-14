@@ -669,6 +669,7 @@ GameObject:
   - component: {fileID: 8459936453397886572}
   - component: {fileID: 1910253956905984151}
   - component: {fileID: 3315716946627022351}
+  - component: {fileID: 2328269995526303216}
   m_Layer: 11
   m_Name: ghoul_boss_allinone
   m_TagString: Untagged
@@ -764,6 +765,102 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &2328269995526303216
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8458075681891393913}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
+  m_Pitch: 0.8
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 75
+  DopplerLevel: 0
+  MinDistance: 2
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8458076616083577535
 GameObject:
   m_ObjectHideFlags: 0
@@ -3433,6 +3530,22 @@ MonoBehaviour:
   _reward: 0
   _isAttacking: 0
   _isWalking: 0
+  MyAudioSource: {fileID: 2328269995526303216}
+  DyingSound:
+  - {fileID: 8300000, guid: 19a673246a383ac42b2648e9d200d042, type: 3}
+  - {fileID: 8300000, guid: 8086c6c15bdf6e74c93054bd309633d0, type: 3}
+  HittingSound:
+  - {fileID: 8300000, guid: 0d3a48e5151e96148a384a2d1f80fc86, type: 3}
+  - {fileID: 8300000, guid: 1b79e21a453536d42bd2a835297305dd, type: 3}
+  - {fileID: 8300000, guid: 4dbc0e75d64b28744b7389c2d60abb99, type: 3}
+  - {fileID: 8300000, guid: f41bc1be29a1c594dbc00ee14bbdd038, type: 3}
+  RunningSound:
+  - {fileID: 8300000, guid: 04d341b5bf2e44748a3959cc708106cf, type: 3}
+  - {fileID: 8300000, guid: 3f058d29266520a44a0f7da0f6946623, type: 3}
+  - {fileID: 8300000, guid: 2cf337fdfb0345b41b0b416c03300d7f, type: 3}
+  AttackingSound:
+  - {fileID: 8300000, guid: 9bd5b550a72e3b640bbfde4dc7a1519b, type: 3}
+  - {fileID: 8300000, guid: b4f24db3faed411449d6237baa74e01f, type: 3}
 --- !u!1 &8546170189883649449
 GameObject:
   m_ObjectHideFlags: 0
