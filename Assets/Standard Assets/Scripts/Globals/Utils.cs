@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MEC;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 public static class Utils
 {
     /// <summary>
@@ -48,4 +48,9 @@ public static class Utils
         }
     }
 
+    public static T GetRandom<T>(this List<T> list)
+    {
+        int index = Random.Range(0, list.Count - 1);
+        return list[index];
+    }
 }

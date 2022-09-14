@@ -55,7 +55,7 @@ public class WeaponBehaviour : MonoBehaviour
         {
             MyAmmo.Rounds--;
             PoolBullet_Manager.Instance.SpawnBullet(BulletType, LocationToShoot.position, LocationToShoot.forward);
-            // Play spund Shoot
+            // Play sound Shoot
         }
         else
         {

@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3186961441893237213}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1717, y: 0.0457, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -186,7 +186,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.025333704, y: 0.11105845, z: 0.069252945}
+  m_Size: {x: -0.03, y: 0.11105845, z: 0.069252945}
   m_Center: {x: 0.0000000027939677, y: -0.054847, z: 0.0000000037252903}
 --- !u!1 &3919146939609633599
 GameObject:
@@ -557,7 +557,8 @@ GameObject:
   - component: {fileID: 5503136795783724099}
   - component: {fileID: 5526922972872304476}
   - component: {fileID: 7803248600454842230}
-  - component: {fileID: 4959465837896045653}
+  - component: {fileID: 4562283801757011244}
+  - component: {fileID: -7791825909404053117}
   m_Layer: 0
   m_Name: AmmoChey
   m_TagString: Untagged
@@ -572,15 +573,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7246468250029472283}
-  m_LocalRotation: {x: -0.002444716, y: 0.006216286, z: -0.016974995, w: 0.99983364}
-  m_LocalPosition: {x: 0.171, y: -0.0381, z: 0.2158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1.1662004}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2842206940226493287}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -0.268, y: 0.717, z: -1.947}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5526922972872304476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,19 +695,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &4959465837896045653
-BoxCollider:
+--- !u!114 &4562283801757011244
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7246468250029472283}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: -0.03, y: 0.1, z: 0.07}
-  m_Center: {x: -0.16, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 097a8eab230aadf40bdce734556f5482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rounds: 100
+  _capacity: 100
+--- !u!114 &-7791825909404053117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246468250029472283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80780a72a3aeaf549a04f479bfc41f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _setValueOnStart: 1
+  _renderer: {fileID: 127563119001615651}
 --- !u!1 &7929445551906801406
 GameObject:
   m_ObjectHideFlags: 0

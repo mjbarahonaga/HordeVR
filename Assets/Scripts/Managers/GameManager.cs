@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager>
     #endregion
 
     #region Game Variables 
+    public static Action OnStartingGame;
     public UxrAvatar RefPlayer;
     public List<Transform> RespawnLocations = new List<Transform>();
     public float DistanceBetweenRespawnNeeded = 200f;
@@ -66,9 +67,21 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Vector3 _positionPlayer;
     #endregion
 
+
+    #region Sounds
+    public AudioClip AmbienceSound;
+    public AudioClip NewHordeSound;
+    public AudioSource AmbienceAudioSource = new AudioSource();
+    public AudioSource HordeAudioSource = new AudioSource();
+    #endregion
     private CoroutineHandle _coroutine;
 
-
+    public void StartGame()
+    {
+        OnStartingGame?.Invoke();
+        // Play AmbienceSound
+        NewHorde();
+    }
 
     public void EnemyDie(Enemy type, int reward)
     {
@@ -81,8 +94,6 @@ public class GameManager : Singleton<GameManager>
         CheckEndHorde();
     }
 
-
-
     public void CheckEndHorde()
     {
         if (_currentEnemies != 0) return;
@@ -91,6 +102,7 @@ public class GameManager : Singleton<GameManager>
     }
     public void NewHorde()
     {
+        // Play NewHordeSound
         ++_currentHorde;
         _currentEnemies = 0;
         int length = EnemySpawnByHordeList.Count;
@@ -126,6 +138,8 @@ public class GameManager : Singleton<GameManager>
         {
             if (this == null) return;
             if (RefPlayer == null) RefPlayer = FindObjectOfType<UxrAvatar>();
+            if (AmbienceAudioSource) AmbienceAudioSource.clip = AmbienceSound;
+            if (HordeAudioSource) HordeAudioSource.clip = NewHordeSound;
         });
     }
 

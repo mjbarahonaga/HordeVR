@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultBullet
   m_EditorClassIdentifier: 
   BulletType: 1
-  Damage: 50
-  Speed: 20
-  Prefab: {fileID: -171050786364957213, guid: 2a9b9e25171eb9e4db4c57ec945ff4ea, type: 3}
+  Damage: 30
+  Speed: 40
+  Prefab: {fileID: 5366117512901100253, guid: 23206cefdae656f4f82254de3567463a, type: 3}
   MaxPool: 50

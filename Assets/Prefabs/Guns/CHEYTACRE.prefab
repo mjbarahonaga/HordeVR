@@ -1715,14 +1715,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2738599180894328157}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.006, y: 0.091, z: 0.939}
+  m_LocalRotation: {x: -0.02460675, y: 0, z: 0, w: 0.9996972}
+  m_LocalPosition: {x: 0.007, y: 0.113, z: 1.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5597249793848821767}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.82, y: 0, z: 0}
 --- !u!1 &2841571642994407291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2812,7 +2812,7 @@ MonoBehaviour:
   _grabPoint:
     _editorFoldout: 1
     _editorName: Trigger Grab
-    _grabMode: 0
+    _grabMode: 2
     _useDefaultGrabButtons: 1
     _bothHandsCompatible: 1
     _handSide: 0
@@ -2917,9 +2917,9 @@ MonoBehaviour:
   LocationToShoot: {fileID: 4375195175499214355}
   MyWeapon: {fileID: 3425120212573555499}
   MyAmmoAnchor: {fileID: 18946995}
-  MyAmmo: {fileID: 7506862998609149246}
-  ShootAudio: {fileID: 0}
-  NoBulletsAudio: {fileID: 0}
+  MyAmmo: {fileID: 0}
+  ShootAudio: {fileID: 8300000, guid: b911de1144c2fe54eb90315943b52d40, type: 3}
+  NoBulletsAudio: {fileID: 8300000, guid: fe726d3155153a34b8f4aca59c732479, type: 3}
 --- !u!1 &5150279356375051740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,21 +4504,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 18946994}
     m_Modifications:
-    - target: {fileID: 1713632823150604149, guid: 6e9320670c3d2704a89874b261018abd,
-        type: 3}
-      propertyPath: m_Size.x
-      value: -0.03
-      objectReference: {fileID: 0}
-    - target: {fileID: 2842206940226493287, guid: 6e9320670c3d2704a89874b261018abd,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2842206940226493287, guid: 6e9320670c3d2704a89874b261018abd,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5503136795783724099, guid: 6e9320670c3d2704a89874b261018abd,
         type: 3}
       propertyPath: m_RootOrder
@@ -4584,52 +4569,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MagMachinegun
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4959465837896045653, guid: 6e9320670c3d2704a89874b261018abd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e9320670c3d2704a89874b261018abd, type: 3}
---- !u!1 &723014349401554450 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7246468250029472283, guid: 6e9320670c3d2704a89874b261018abd,
-    type: 3}
-  m_PrefabInstance: {fileID: 7969130271753749513}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7506862998609149246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723014349401554450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 097a8eab230aadf40bdce734556f5482, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rounds: 100
-  _capacity: 100
---- !u!114 &7506862998609149245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723014349401554450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80780a72a3aeaf549a04f479bfc41f47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _setValueOnStart: 1
-  _renderer: {fileID: 8024631930961656106}
 --- !u!4 &2505998109417420874 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5503136795783724099, guid: 6e9320670c3d2704a89874b261018abd,
-    type: 3}
-  m_PrefabInstance: {fileID: 7969130271753749513}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &8024631930961656106 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 127563119001615651, guid: 6e9320670c3d2704a89874b261018abd,
     type: 3}
   m_PrefabInstance: {fileID: 7969130271753749513}
   m_PrefabAsset: {fileID: 0}
