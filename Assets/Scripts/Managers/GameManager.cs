@@ -6,6 +6,9 @@ using MEC;
 using System;
 using UltimateXR.Core;
 using UltimateXR.Avatar;
+using TMPro;
+using UltimateXR.Animation.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -74,6 +77,22 @@ public class GameManager : Singleton<GameManager>
     public AudioSource AmbienceAudioSource = new AudioSource();
     public AudioSource HordeAudioSource = new AudioSource();
     #endregion
+
+    #region Final Canvas 
+    
+    [FoldoutGroup("FinalCanvas")] public Canvas CanvasContainer;
+    [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI EnemiesKilledText;
+    [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI AmountKilledText;
+    [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI ScoreText;
+    [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI AmountScoreText;
+    [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI ExitTimer;
+
+    [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup EnemiesKT_Group;
+    [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup AmountK_Group;
+    [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup Score_Group;
+    [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup AmountS_Group;
+    [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup Timer_Group;
+    #endregion
     private CoroutineHandle _coroutine;
 
     public void StartGame()
@@ -100,6 +119,7 @@ public class GameManager : Singleton<GameManager>
 
         NewHorde();
     }
+
     public void NewHorde()
     {
         // Play NewHordeSound
@@ -110,6 +130,38 @@ public class GameManager : Singleton<GameManager>
         {
             _currentEnemies += EnemySpawnByHordeList[i].SpawnEnemies(RefPlayer.transform.position);
         }
+    }
+
+    public void EndGame()
+    {
+        Timing.RunCoroutine(EndGameCoroutine());
+    }
+
+    public IEnumerator<float> EndGameCoroutine()
+    {
+        CanvasContainer.enabled = true;
+
+        UxrCanvasAlphaTween.FadeIn(EnemiesKT_Group, 1.5f);
+        yield return Timing.WaitForSeconds(1.5f);
+
+        UxrCanvasAlphaTween.FadeIn(AmountK_Group, 1.5f);
+        yield return Timing.WaitForSeconds(1.5f);
+
+        UxrCanvasAlphaTween.FadeIn(Score_Group, 1.5f);
+        yield return Timing.WaitForSeconds(1.5f);
+
+        UxrCanvasAlphaTween.FadeIn(AmountS_Group, 1.5f);
+        yield return Timing.WaitForSeconds(1.5f);
+
+        UxrCanvasAlphaTween.FadeIn(Timer_Group, 0.5f);
+        for (int i = 5; i > 0; --i)
+        {
+            ExitTimer.text = "Output in " + i.ToString();
+            yield return Timing.WaitForSeconds(1);
+        }
+
+        Scene scene = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(scene.name);
     }
 
     public List<Transform> GetPossibleRespawns()
@@ -140,6 +192,12 @@ public class GameManager : Singleton<GameManager>
             if (RefPlayer == null) RefPlayer = FindObjectOfType<UxrAvatar>();
             if (AmbienceAudioSource) AmbienceAudioSource.clip = AmbienceSound;
             if (HordeAudioSource) HordeAudioSource.clip = NewHordeSound;
+
+            if (EnemiesKilledText && EnemiesKT_Group == null) EnemiesKT_Group = EnemiesKilledText.GetComponent<CanvasGroup>();
+            if (AmountKilledText && AmountK_Group == null) AmountK_Group = AmountKilledText.GetComponent<CanvasGroup>();
+            if (ScoreText && Score_Group == null) Score_Group = ScoreText.GetComponent<CanvasGroup>();
+            if (AmountScoreText && AmountS_Group == null) AmountS_Group = AmountScoreText.GetComponent<CanvasGroup>();
+            if (ExitTimer && Timer_Group == null) Timer_Group = ExitTimer.GetComponent<CanvasGroup>();
         });
     }
 

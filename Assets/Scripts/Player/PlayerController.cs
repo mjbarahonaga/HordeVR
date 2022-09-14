@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MEC;
 using UltimateXR.Extensions.Unity.Render;
+using Sirenix.OdinInspector;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,7 +29,6 @@ public class PlayerController : MonoBehaviour
         {
             _isDie = true;
             StartCoroutine(Dying());
-            //DIE
         }
     }
 
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
             UxrManager.Instance.TeleportFadeColor.WithAlpha(0f), 
             UxrManager.Instance.TeleportFadeColor.WithAlpha(1f));
 
-
+        GameManager.Instance.EndGame();
     }
 
     #region UNITY
@@ -58,4 +58,11 @@ public class PlayerController : MonoBehaviour
         EnemyBehaviour.OnSendAttack -= TakeDamage;
     }
     #endregion
+
+    #region TEST
+#if UNITY_EDITOR
+    [Button("TestDie")]
+    public void TestDie() => StartCoroutine(Dying());
+#endif
+#endregion
 }
