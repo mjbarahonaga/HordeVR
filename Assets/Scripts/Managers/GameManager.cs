@@ -59,7 +59,8 @@ public class GameManager : Singleton<GameManager>
 
     #region Game Variables 
     public static Action OnStartingGame;
-    public UxrAvatar RefPlayer;
+    public Transform EnemyGoal;
+    public PlayerController Player;
     public List<Transform> RespawnLocations = new List<Transform>();
     public float DistanceBetweenRespawnNeeded = 200f;
 
@@ -68,6 +69,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private int _enemiesKilled = 0;
     [SerializeField] private int _score = 0;
     [SerializeField] private Vector3 _positionPlayer;
+    public Vector3 PlayerPosition { get => _positionPlayer; }
     private bool _alreadyStarted = false;
     #endregion
 
@@ -101,7 +103,7 @@ public class GameManager : Singleton<GameManager>
         if (_alreadyStarted) return;
         _alreadyStarted = true;
         OnStartingGame?.Invoke();
-        AmbienceAudioSource.Play();
+        AmbienceAudioSource?.Play();
         NewHorde();
     }
 
@@ -125,13 +127,13 @@ public class GameManager : Singleton<GameManager>
 
     public void NewHorde()
     {
-        HordeAudioSource.Play();
+        HordeAudioSource?.Play();
         ++_currentHorde;
         _currentEnemies = 0;
         int length = EnemySpawnByHordeList.Count;
         for (int i = 0; i < length; ++i)
         {
-            _currentEnemies += EnemySpawnByHordeList[i].SpawnEnemies(RefPlayer.transform.position);
+            _currentEnemies += EnemySpawnByHordeList[i].SpawnEnemies(EnemyGoal.position);
         }
     }
 
@@ -192,7 +194,7 @@ public class GameManager : Singleton<GameManager>
         Utils.ValidationUtility.SafeOnValidate(() =>
         {
             if (this == null) return;
-            if (RefPlayer == null) RefPlayer = FindObjectOfType<UxrAvatar>();
+            if (Player == null) Player = FindObjectOfType<PlayerController>();
             if (AmbienceAudioSource) AmbienceAudioSource.clip = AmbienceSound;
             if (HordeAudioSource) HordeAudioSource.clip = NewHordeSound;
 
@@ -207,7 +209,8 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         UxrManager.AvatarMoved += PlayerMoved;
-        _positionPlayer = RefPlayer.transform.position;
+        _positionPlayer = Player.transform.position;
+        
     }
 
     private void OnDestroy()
@@ -218,12 +221,20 @@ public class GameManager : Singleton<GameManager>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(RefPlayer.transform.position, DistanceBetweenRespawnNeeded  * 0.01f);
+        Gizmos.DrawWireSphere(PlayerPosition, DistanceBetweenRespawnNeeded  * 0.01f);
     }
     #endregion
 
 #if UNITY_EDITOR
     [Button("NewHorde")]
     public void TestNewHorde() => NewHorde();
+
+    [Button("SpawnOneEnemy")]
+    public void TestSpawnOneEnemy()
+    {
+        List<Transform> randomSpawn = GameManager.Instance.GetPossibleRespawns();
+        var currentSpawn = randomSpawn[0];
+        PoolEnemy_Manager.Instance.SpawnEnemy(Enemy.Ghoul, EnemyGoal.position, currentSpawn);
+    }
 #endif
 }

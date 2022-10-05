@@ -18,10 +18,12 @@ public class PlayerController : MonoBehaviour
     public AudioClip Hit;
     public AudioClip Dead;
 
-    
+    public bool IsDie { get { return _isDie; } }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(GameObject obj, int damage)
     {
+        if (obj != this.gameObject) return;
+
         _currentHP -= damage;
         // Call sfx sound
         HealthBar.value = Mathf.Clamp(_currentHP, 0, HPMax);

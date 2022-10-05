@@ -17,5 +17,5 @@ MonoBehaviour:
   HP: 60
   Speed: 3.7
   Reward: 1
-  Prefab: {fileID: 8833494320035947194, guid: 32728fd413efcf2449782598c2a40bd8, type: 3}
+  Prefab: {fileID: 7451917338141984815, guid: 32728fd413efcf2449782598c2a40bd8, type: 3}
   MaxPool: 40
