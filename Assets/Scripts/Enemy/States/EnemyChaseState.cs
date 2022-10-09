@@ -14,7 +14,7 @@ public class EnemyChaseState : EnemyBaseState
         switch (type)
         {
             case Targets.Obstacle:
-                if (!target.activeSelf)
+                if (!target.activeInHierarchy)
                 {
                     SwitchState(Factory.Run());
                 }
@@ -23,7 +23,7 @@ public class EnemyChaseState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        SwitchState(Factory.Attack()); 
+                        SwitchState(Factory.Attack());
 
                     }
                     else
@@ -41,7 +41,7 @@ public class EnemyChaseState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        SwitchState(Factory.Attack()); 
+                        SwitchState(Factory.Attack());
                     }
                     else if (Ctx.GetEnemyBehaviour.PlayerInRange())
                     {
@@ -53,6 +53,10 @@ public class EnemyChaseState : EnemyBaseState
                     }
                 }
                 break;
+            case Targets.None:
+                SwitchState(Factory.Run());
+                
+                break;
             default:
                 break;
         }
@@ -60,7 +64,7 @@ public class EnemyChaseState : EnemyBaseState
 
     public override void EnterState()
     {
-        Ctx.TriggetAnimation(EnemyStates.Run);
+        Ctx.TriggetAnimation(EnemyStates.Chase);
     }
 
     public override void ExitState()

@@ -18,7 +18,7 @@ public class EnemyAttackState : EnemyBaseState
         switch (type)
         {
             case Targets.Obstacle:
-                if (!target.activeSelf)
+                if (!target.activeInHierarchy)
                 {
                     SwitchState(Factory.Run());
                 }
@@ -27,10 +27,10 @@ public class EnemyAttackState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
+                        //Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
                         return;
                     }
-                    else
+                    else if (Ctx.GetEnemyBehaviour.GetTarget != null)
                     {
                         SwitchState(Factory.Chase());
                     }
@@ -45,10 +45,10 @@ public class EnemyAttackState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
+                        //Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
                         return;
                     }
-                    else if(Ctx.GetEnemyBehaviour.PlayerInRange())
+                    else if (Ctx.GetEnemyBehaviour.PlayerInRange())
                     {
                         SwitchState(Factory.Chase());
                     }
@@ -57,6 +57,9 @@ public class EnemyAttackState : EnemyBaseState
                         SwitchState(Factory.Run());
                     }
                 }
+                break;
+            case Targets.None:
+                SwitchState(Factory.Run());
                 break;
             default:
                 break;
@@ -73,6 +76,7 @@ public class EnemyAttackState : EnemyBaseState
 
     public override void ExitState()
     {
+        Ctx.GetAnimator.SetBool("Attack", false);
         Ctx.GetAgent.isStopped = false;
     }
 

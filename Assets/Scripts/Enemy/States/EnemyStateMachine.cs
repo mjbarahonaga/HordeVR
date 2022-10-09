@@ -45,13 +45,13 @@ public class EnemyStateMachine : MonoBehaviour
         switch (state)
         {
             case EnemyStates.Run:
-                _animator.SetTrigger(_idRun);
+                _animator.SetBool(_idRun,true);
                 break;
             case EnemyStates.Chase:
                 _animator.SetTrigger(_idChase);
                 break;
             case EnemyStates.Attack:
-                _animator.SetTrigger(_idAttack);
+                _animator.SetBool(_idAttack, true);
                 break;
             case EnemyStates.Hit:
                 _animator.SetTrigger(_idHit);
@@ -67,7 +67,7 @@ public class EnemyStateMachine : MonoBehaviour
     #region UNITY METHODS
     private void Awake()
     {
-        _idRun = Animator.StringToHash("Run");
+        _idRun = Animator.StringToHash("IsRunning");
         _idDie = Animator.StringToHash("Die");
         _idAttack = Animator.StringToHash("Attack");
         _idHit = Animator.StringToHash("Hit");

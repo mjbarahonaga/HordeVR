@@ -47,7 +47,7 @@ public class EnemyRunState : EnemyBaseState
 
     public override void ExitState()
     {
-        
+        Ctx.GetAnimator.SetBool("IsRunning", false);
     }
     
 }

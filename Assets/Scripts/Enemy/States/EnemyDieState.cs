@@ -4,26 +4,36 @@ using UnityEngine;
 
 public class EnemyDieState : EnemyBaseState
 {
+    private float _timeToExit;
+    private float _currentTime;
+
     public EnemyDieState(EnemyStateMachine currentContext, EnemyStateFactory enemyStateFactory)
     : base(currentContext, enemyStateFactory) { }
 
     public override void CheckSwitchState()
     {
-        throw new System.NotImplementedException();
+        Ctx.GetEnemyBehaviour.PoolReference.OnReturnToPool(Ctx.GetEnemyBehaviour);
     }
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        Ctx.GetAgent.isStopped = true;
+        Ctx.TriggetAnimation(EnemyStates.Die);
+        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorClipInfo(0).Length + 1;
+        _currentTime = 0f;
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override void UpdateState(float deltaTime)
     {
-        throw new System.NotImplementedException();
+        _currentTime += deltaTime;
+
+        if (_currentTime < _timeToExit) return;
+
+        CheckSwitchState();
     }
 }

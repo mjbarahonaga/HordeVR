@@ -127,6 +127,12 @@ public class EnemyBehaviour : MonoBehaviour
     public void ReturnToPool()
     {
         InstantiatePrefab.SetActive(false);
+        if(_enemyStateMachine?.CurrentState != null)
+        {
+            _enemyStateMachine.CurrentState.ExitState();
+            _enemyStateMachine.CurrentState = null;
+        }
+        
     }
 
     #endregion
@@ -191,7 +197,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public bool CurrentTargetInRangeOfAttack()
     {
-        if (_currentTarget == null) return false;
+        if (_currentTypeTarget == Targets.Player && GameManager.Instance.Player.IsDie) return false; 
+        if (_currentTarget == null || !_currentTarget.activeInHierarchy) return false;
         return (_currentTarget.transform.position - _myTransform.position).sqrMagnitude < DistanceAttacking;
     }
     //public bool CheckForwardDirection(out string tag, out GameObject target)
@@ -423,8 +430,8 @@ public class EnemyBehaviour : MonoBehaviour
 #if UNITY_EDITOR
     //[Button("To Die")]
     //public void ToDie() => Timing.RunCoroutine(Dying());
-
-    //[Button("Hit")]
-    //public void ToHit() => Timing.RunCoroutine(Hit());
+    public int testAmount = 10;
+    [Button("Hit")]
+    public void ToHit() => TakeDamage(testAmount);
 #endif
 }

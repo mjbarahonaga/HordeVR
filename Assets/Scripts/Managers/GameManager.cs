@@ -10,8 +10,10 @@ using TMPro;
 using UltimateXR.Animation.UI;
 using UnityEngine.SceneManagement;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     #region Struct Horde
 
     [System.Serializable]
@@ -204,6 +206,16 @@ public class GameManager : Singleton<GameManager>
             if (AmountScoreText && AmountS_Group == null) AmountS_Group = AmountScoreText.GetComponent<CanvasGroup>();
             if (ExitTimer && Timer_Group == null) Timer_Group = ExitTimer.GetComponent<CanvasGroup>();
         });
+    }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
     }
 
     private void Start()

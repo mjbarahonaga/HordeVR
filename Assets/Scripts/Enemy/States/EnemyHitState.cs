@@ -11,7 +11,77 @@ public class EnemyHitState : EnemyBaseState
 
     public override void CheckSwitchState()
     {
+        var type = Ctx.GetEnemyBehaviour.GetTypeTarget;
+        var target = Ctx.GetEnemyBehaviour.GetTarget;
+        switch (type)
+        {
+            case Targets.Obstacle:
+                if (!target.activeInHierarchy)
+                {
+                    SwitchState(Factory.Run());
+                }
+                // Current alive
+                else
+                {
+                    if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
+                    {
+                        SwitchState(Factory.Attack());
 
+                    }
+                    else
+                    {
+                        SwitchState(Factory.Chase());
+                    }
+                }
+                break;
+            case Targets.Player:
+                if (GameManager.Instance.Player.IsDie)
+                {
+                    SwitchState(Factory.Run());
+                }
+                else
+                {
+                    if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
+                    {
+                        SwitchState(Factory.Attack());
+                    }
+                    else if (Ctx.GetEnemyBehaviour.PlayerInRange())
+                    {
+                        SwitchState(Factory.Chase());
+                    }
+                    else
+                    {
+                        SwitchState(Factory.Run());
+                    }
+                }
+                break;
+            case Targets.None:
+                if (Ctx.GetEnemyBehaviour.PlayerInRange())
+                {
+                    Ctx.GetEnemyBehaviour.SetTarget(GameManager.Instance.Player.gameObject, Targets.Player);
+                    SwitchState(Factory.Chase());
+                    return;
+                }
+                var agent = Ctx.GetAgent;
+                if (!agent.pathPending)
+                {
+                    if (agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathPartial && !agent.hasPath)
+                    {
+                        var collider = Ctx.GetEnemyBehaviour.CheckForwardDirection();
+                        if (collider != null && collider.gameObject.CompareTag("Obstacle"))
+                        {
+                            Ctx.GetEnemyBehaviour.SetTarget(collider.gameObject, Targets.Obstacle);
+                            SwitchState(Factory.Attack());
+                            return;
+                        }
+                    }
+                }
+                SwitchState(Factory.Run());
+
+                break;
+            default:
+                break;
+        }
     }
 
     public override void EnterState()
@@ -33,6 +103,6 @@ public class EnemyHitState : EnemyBaseState
         
         if (_currentTime < _timeToExit) return;
 
-        ExitState();
+        CheckSwitchState();
     }
 }
