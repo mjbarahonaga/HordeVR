@@ -87,7 +87,7 @@ public class EnemyHitState : EnemyBaseState
     public override void EnterState()
     {
         Ctx.TriggetAnimation(EnemyStates.Hit);
-        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorClipInfo(0).Length;
+        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorStateInfo(0).length;
         _currentTime = 0f;
         Ctx.GetAgent.isStopped = true;
     }

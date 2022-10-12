@@ -19,7 +19,7 @@ public class EnemyDieState : EnemyBaseState
     {
         Ctx.GetAgent.isStopped = true;
         Ctx.TriggetAnimation(EnemyStates.Die);
-        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorClipInfo(0).Length + 1;
+        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorStateInfo(0).length + 1;
         _currentTime = 0f;
     }
 

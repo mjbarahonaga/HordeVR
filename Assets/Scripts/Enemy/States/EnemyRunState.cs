@@ -32,7 +32,7 @@ public class EnemyRunState : EnemyBaseState
         var agent = Ctx.GetAgent;
         if (!agent.pathPending)
         {
-            if(agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathPartial && !agent.hasPath)
+            if(agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathPartial && Mathf.Approximately(agent.velocity.magnitude, 0f)/*&& !agent.hasPath*/)
             {
                 var collider = Ctx.GetEnemyBehaviour.CheckForwardDirection();
                 if(collider != null && collider.gameObject.CompareTag("Obstacle"))

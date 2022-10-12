@@ -51,7 +51,7 @@ public class EnemyStateMachine : MonoBehaviour
                 _animator.SetTrigger(_idChase);
                 break;
             case EnemyStates.Attack:
-                _animator.SetBool(_idAttack, true);
+                _animator.SetTrigger(_idAttack);
                 break;
             case EnemyStates.Hit:
                 _animator.SetTrigger(_idHit);

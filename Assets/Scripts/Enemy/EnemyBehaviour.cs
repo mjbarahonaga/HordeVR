@@ -111,7 +111,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetUpEnemy()
     {
         _navMeshAgent.speed = Data.Speed;
-        _navMeshAgent.stoppingDistance = DistanceAttacking - 1f < 0 ? 0 : DistanceAttacking - 1f;
+        //_navMeshAgent.stoppingDistance = DistanceAttacking - 1f < 0 ? 0 : DistanceAttacking - 1f;
         _reward = Data.Reward;
         _currentHP = Data.HP;
     }
@@ -199,7 +199,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (_currentTypeTarget == Targets.Player && GameManager.Instance.Player.IsDie) return false; 
         if (_currentTarget == null || !_currentTarget.activeInHierarchy) return false;
-        return (_currentTarget.transform.position - _myTransform.position).sqrMagnitude < DistanceAttacking;
+        return (_currentTarget.transform.position - _myTransform.position).magnitude < DistanceAttacking;
     }
     //public bool CheckForwardDirection(out string tag, out GameObject target)
     //{

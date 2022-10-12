@@ -200,7 +200,7 @@ MonoBehaviour:
   PoolReference: {fileID: 0}
   AngleOfVision: 0.5
   DistanceChasing: 4
-  DistanceAttacking: 3.5
+  DistanceAttacking: 2.5
   IsDie: 0
   _myTransform: {fileID: 3874849417833911018}
   InstantiatePrefab: {fileID: 0}
@@ -233,6 +233,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cdaad494017278f4d8f8d5652c866800, type: 3}
   - {fileID: 8300000, guid: aebc728b0b947a748a1b50e07119938f, type: 3}
   - {fileID: 8300000, guid: 66c64a8899f1b09458f3ff686c8fcb02, type: 3}
+  testAmount: 10
 --- !u!95 &478028208481868207
 Animator:
   serializedVersion: 4
@@ -262,16 +263,16 @@ NavMeshAgent:
   m_GameObject: {fileID: 3874849417833911020}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.1
+  m_Radius: 0.5
   m_Speed: 0.5
-  m_Acceleration: 2
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 240
-  m_StoppingDistance: 5
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 0.74
+  m_Height: 0.9
   m_BaseOffset: 0
   m_WalkableMask: 5
   m_ObstacleAvoidanceType: 1

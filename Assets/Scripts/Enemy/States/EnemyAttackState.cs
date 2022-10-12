@@ -27,7 +27,7 @@ public class EnemyAttackState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        //Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
+                        Ctx.TriggetAnimation(EnemyStates.Attack); 
                         return;
                     }
                     else if (Ctx.GetEnemyBehaviour.GetTarget != null)
@@ -45,7 +45,7 @@ public class EnemyAttackState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        //Ctx.TriggetAnimation(EnemyStates.Attack); //< Not needed because its a loop animation
+                        Ctx.TriggetAnimation(EnemyStates.Attack); 
                         return;
                     }
                     else if (Ctx.GetEnemyBehaviour.PlayerInRange())
@@ -70,13 +70,12 @@ public class EnemyAttackState : EnemyBaseState
     {
         Ctx.GetAgent.isStopped = true;
         Ctx.TriggetAnimation(EnemyStates.Attack);
-        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorClipInfo(0).Length;
+        _timeToExit = Ctx.GetAnimator.GetCurrentAnimatorStateInfo(0).length;
         _currentTime = 0f;
     }
 
     public override void ExitState()
     {
-        Ctx.GetAnimator.SetBool("Attack", false);
         Ctx.GetAgent.isStopped = false;
     }
 
