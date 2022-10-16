@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+  - Wall
+  - Floor
+  - Ceiling
   layers:
   - Default
   - TransparentFX
@@ -13,12 +16,12 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - Walls
+  - Surface
   - Bullet
   - Walkable
   - Traps
-  - 
-  - 
+  - Building
+  - ToBuild
   - 
   - 
   - 

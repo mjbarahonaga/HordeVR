@@ -72,13 +72,12 @@ public class BulletBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         // Case Enemy
-        var enemy = collision.gameObject.GetComponentInParent<EnemyBehaviour>();
-        if(enemy != null)
+        if(collision.gameObject.TryGetComponent(out EnemyBehaviour enemy))
         {
             if (enemy.IsDie) return;
             enemy.TakeDamage(_damage);
         }
-        // Case Wall
+        // Case Surface
         PoolReference.Pool.Release(this);
     }
 }

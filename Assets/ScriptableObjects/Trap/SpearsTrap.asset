@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb7cb31325583a47b62a22079baed11, type: 3}
   m_Name: SpearsTrap
   m_EditorClassIdentifier: 
-  Damage: 20
+  Type: 1
+  Surface: 1
+  Damage: 30
   CoolDown: 4
   Price: 100

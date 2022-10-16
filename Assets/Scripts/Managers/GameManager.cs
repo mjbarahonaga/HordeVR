@@ -10,9 +10,20 @@ using TMPro;
 using UltimateXR.Animation.UI;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public class TrapContainer
+{
+    public DataTrap Data;
+    public GameObject Trap;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+
+    #region TRAPS
+    public List<TrapContainer> Traps = new();
+    #endregion
 
     #region Struct Horde
 
@@ -60,6 +71,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Game Variables 
+    public int Money = 3000;
     public static Action OnStartingGame;
     public Transform EnemyGoal;
     public PlayerController Player;
@@ -98,6 +110,7 @@ public class GameManager : MonoBehaviour
     [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup AmountS_Group;
     [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup Timer_Group;
     #endregion
+
     private CoroutineHandle _coroutine;
 
     public void StartGame()
@@ -189,6 +202,46 @@ public class GameManager : MonoBehaviour
     public void UpdatePositionPlayer(Vector3 pos) => _positionPlayer = pos;
     private void PlayerMoved(object sender, UxrAvatarMoveEventArgs e) => UpdatePositionPlayer(e.NewPosition);
 
+    public TypeSurface GetValidSurfaces(TypeTrap type)
+    {
+        int length = Traps.Count;
+        for (int i = 0; i < length; ++i)
+        {
+            if (Traps[i].Data.Type == type) return Traps[i].Data.Surface;
+        }
+        return TypeSurface.None;
+    }
+    public void CheckToPlace(TypeTrap type, Vector3 pos, Quaternion rot)
+    {
+        int length = Traps.Count;
+        GameObject trap = null;
+        int price = int.MaxValue;
+        for (int i = 0; i < length; ++i)
+        {
+            if (Traps[i].Data.Type == type)
+            {
+                trap = Traps[i].Trap;
+                price = Traps[i].Data.Price;
+                break;
+            }
+        }
+        if (trap == null) return;
+        if (Money < price)
+        {
+            //TODO : Feedback
+            return;
+        }
+        Money -= price;
+        PlaceTrap(trap, pos, rot);
+    }
+
+    public void PlaceTrap(GameObject trap, Vector3 pos, Quaternion rot)
+    {
+        // TODO : Feedback
+        GameObject.Instantiate(trap, pos, rot);
+    }
+
+    
     #region UNITY
 
     private void OnValidate()

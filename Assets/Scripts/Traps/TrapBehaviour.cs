@@ -7,12 +7,17 @@ using Sirenix.OdinInspector;
 [RequireComponent(typeof(BoxCollider))]
 public class TrapBehaviour : MonoBehaviour
 {
+    #region Public variables
     public DataTrap Data;
+    #endregion
 
     #region Private variables
     private int _damage;
     private float _coolDown;
     private float _price;
+
+    private BoxCollider _boxCollider;
+    private Transform _myTransform;
 
     private bool _isReadyToAttack = true;
 
@@ -26,13 +31,15 @@ public class TrapBehaviour : MonoBehaviour
     private List<EnemyBehaviour> _enemiesInside = new List<EnemyBehaviour>();
     #endregion
 
-    #region Getter and Setters
+    #region GETTERS AND SETTERS
     [ShowInInspector, ReadOnly]
     public int Damage { get => _damage; private set => _damage = value; }
     [ShowInInspector, ReadOnly]
     public float CoolDown { get => _coolDown; private set => _coolDown = value; }
     [ShowInInspector, ReadOnly]
     public float Price { get => _price; private set => _price = value; }
+
+    public Vector3Int CenterPosition { get; private set; }
     #endregion
 
     public void SetUp(DataTrap data)
@@ -69,13 +76,46 @@ public class TrapBehaviour : MonoBehaviour
             if (enemies[i].IsDie)
             {
                 enemies.Remove(enemies[i]);
+                --length;
+                --i;
             }
         }
 
         _updateCoroutine = Timing.RunCoroutine(MyUpdateCoroutine());
     }
 
-    #region Unity Methods
+    #region UTILS
+    public Vector3[] GetColliderVertexPositionsLocal()
+    {
+        var vertices = new Vector3[4];
+        vertices[0] = _boxCollider.center + new Vector3(-_boxCollider.size.x, -_boxCollider.size.y, -_boxCollider.size.z) * 0.5f;
+        vertices[1] = _boxCollider.center + new Vector3(_boxCollider.size.x, -_boxCollider.size.y, -_boxCollider.size.z) * 0.5f;
+        vertices[2] = _boxCollider.center + new Vector3(_boxCollider.size.x, -_boxCollider.size.y, _boxCollider.size.z) * 0.5f;
+        vertices[3] = _boxCollider.center + new Vector3(-_boxCollider.size.x, -_boxCollider.size.y, _boxCollider.size.z) * 0.5f;
+
+        return vertices;
+    }
+
+    public void CalculateSizeCells()
+    {
+        var vertices = GetColliderVertexPositionsLocal();
+        Vector3Int[] vector3Ints = new Vector3Int[vertices.Length];
+
+        int length = vector3Ints.Length;
+        for (int i = 0; i < length; ++i)
+        {
+            Vector3 worldPos = _myTransform.TransformPoint(vertices[i]);
+            vector3Ints[i] = BuildingSystem.Instance.GetGridLayout.WorldToCell(worldPos);
+        }
+
+        CenterPosition = new Vector3Int(Mathf.Abs((vector3Ints[0] - vector3Ints[1]).x),
+            Mathf.Abs((vector3Ints[0] - vector3Ints[3]).y),
+            1);
+    }
+
+    #endregion
+
+    #region UNITY METHODS
 
     private void Start()
     {
@@ -115,6 +155,8 @@ public class TrapBehaviour : MonoBehaviour
             if (this == null) return;
             if (Data != null) SetUp(Data);
             if(_animator == null) _animator = GetComponent<Animator>();
+            if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider>();
+            if(_myTransform == null) _myTransform = GetComponent<Transform>();
         });
     }
     #endregion
