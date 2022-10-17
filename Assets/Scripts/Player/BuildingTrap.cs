@@ -31,8 +31,20 @@ public class BuildingTrap : MonoBehaviour
         set { m_TypeTrap = value; }
     }
 
+    private void ReceiveSelection(TypeTrap type)
+    {
+        if (type == TypeTrap.None)
+        {
+            UnselectTrap();
+            return;
+        }
+        SelectTypeTrap(type);
+    }
+
     public void SelectTypeTrap(TypeTrap type)
     {
+        UnselectTrap(); // to avoid replications
+
         SelectedTypeTrap = type;
         GhostManager.Instance.SelectedGhost(type);
         m_TypeSurface = GameManager.Instance.GetValidSurfaces(type);
@@ -154,7 +166,7 @@ public class BuildingTrap : MonoBehaviour
         GhostManager.Instance.ToggleMaterial(current);
         m_ItWasValid = current;
     }
-
+    
     #region UNITY METHODS
     private void Start()
     {
@@ -162,7 +174,14 @@ public class BuildingTrap : MonoBehaviour
         m_TrapLayer = 1 << 10;
         m_TrapLayer = ~m_TrapLayer; // Hardcoded, to ignore layer traps
         MyController.Avatar.ControllerInput.ButtonStateChanged += PlaceTrap;
+        InventorySelection.OnSendTypeSelected += ReceiveSelection;
     }
+
+    private void OnDestroy()
+    {
+        InventorySelection.OnSendTypeSelected -= ReceiveSelection;
+    }
+
     #endregion
 
 #if UNITY_EDITOR
