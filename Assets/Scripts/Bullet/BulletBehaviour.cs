@@ -69,10 +69,10 @@ public class BulletBehaviour : MonoBehaviour
     }
 
     // Only enter with layers enemy and wall
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         // Case Enemy
-        if(collision.gameObject.TryGetComponent(out EnemyBehaviour enemy))
+        if(other.gameObject.TryGetComponent(out EnemyBehaviour enemy))
         {
             if (enemy.IsDie) return;
             enemy.TakeDamage(_damage);

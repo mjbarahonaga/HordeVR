@@ -22,11 +22,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     #region TRAPS
+    [Title("Traps")]
     public List<TrapContainer> Traps = new();
     #endregion
 
     #region Struct Horde
-
+    [Title("Hordes")]
+    public List<Transform> RespawnLocations = new List<Transform>();
     [System.Serializable]
     public class EnemySpawnByHorde
     {
@@ -71,13 +73,15 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Game Variables 
+    [Title("Game Variables")]
+    public int Lives = 30;
     public int Money = 3000;
     public static Action OnStartingGame;
     public Transform EnemyGoal;
     public PlayerController Player;
-    public List<Transform> RespawnLocations = new List<Transform>();
     public float DistanceBetweenRespawnNeeded = 200f;
 
+    [Title("Info Game")]
     [SerializeField] private int _currentEnemies = 0;
     [SerializeField] private int _currentHorde = 0;
     [SerializeField] private int _enemiesKilled = 0;
@@ -89,6 +93,7 @@ public class GameManager : MonoBehaviour
 
 
     #region Sounds
+    [Title("Sounds")]
     public AudioClip AmbienceSound;
     public AudioClip NewHordeSound;
     public AudioSource AmbienceAudioSource = new AudioSource();
@@ -96,7 +101,8 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Final Canvas 
-    
+
+    [Title("Canvas")]
     [FoldoutGroup("FinalCanvas")] public Canvas CanvasContainer;
     [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI EnemiesKilledText;
     [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI AmountKilledText;
@@ -157,6 +163,21 @@ public class GameManager : MonoBehaviour
         Timing.RunCoroutine(EndGameCoroutine());
     }
 
+    public void EnemyReachedGoal()
+    {
+        --Lives;
+        --_currentEnemies;
+
+
+        if (Lives > 0)
+        {
+            CheckEndHorde();
+            return;
+        }
+        if(Lives == 0) EndGame();
+
+    }
+
     public IEnumerator<float> EndGameCoroutine()
     {
         CanvasContainer.enabled = true;
@@ -186,17 +207,17 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> GetPossibleRespawns()
     {
-        List<Transform> respawns = new List<Transform>();   
-        int length = RespawnLocations.Count;
-        for (int i = 0; i < length; i++)
-        {
-            if((_positionPlayer - RespawnLocations[i].position).sqrMagnitude 
-                > DistanceBetweenRespawnNeeded)
-            {
-                respawns.Add(RespawnLocations[i]);
-            }
-        }
-        return respawns;
+        //List<Transform> respawns = new List<Transform>();   
+        //int length = RespawnLocations.Count;
+        //for (int i = 0; i < length; ++i)
+        //{
+        //    if((_positionPlayer - RespawnLocations[i].position).sqrMagnitude 
+        //        > DistanceBetweenRespawnNeeded)
+        //    {
+        //        respawns.Add(RespawnLocations[i]);
+        //    }
+        //}
+        return RespawnLocations;
     }
 
     public void UpdatePositionPlayer(Vector3 pos) => _positionPlayer = pos;

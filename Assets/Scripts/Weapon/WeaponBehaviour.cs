@@ -92,7 +92,7 @@ public class WeaponBehaviour : MonoBehaviour
     private void OnEnable()
     {
         UxrManager.AvatarsUpdated += UxrManager_AvatarsUpdated;
-        UxrManager.AvatarsUpdated += FirstTimeGrabbed;
+        //UxrManager.AvatarsUpdated += FirstTimeGrabbed;
         MyAmmoAnchor.Placed += AmmoTarget_Placed;
         MyAmmoAnchor.Removed += AmmoTarget_Removed;
     }

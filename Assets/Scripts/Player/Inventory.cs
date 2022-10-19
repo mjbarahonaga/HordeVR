@@ -15,24 +15,23 @@ public class Inventory : MonoBehaviour
     private Camera m_ReferenceCamera;
     private CoroutineHandle m_Coroutine;
 
-    private void LeftGrip_Inventory(object sender, UxrInputButtonEventArgs e)
+    private void LeftTrigger_Inventory(object sender, UxrInputButtonEventArgs e)
     {
         if (e.HandSide == UxrHandSide.Right) return;
 
-        if (e.Button == UxrInputButtons.Grip &&
-            e.ButtonEventType == UxrButtonEventType.Pressing)
+        if (e.Button == UxrInputButtons.Trigger &&
+            e.ButtonEventType == UxrButtonEventType.PressDown)
         {
-            if (InventoryCanvas.enabled) return;
-            InventoryCanvas.enabled = true;
-            m_Coroutine = Timing.RunCoroutine(BillboardInventoryCoroutine());
-            return;
-        }
-
-        if (e.Button == UxrInputButtons.Grip &&
-            e.ButtonEventType == UxrButtonEventType.PressUp)
-        {
-            InventoryCanvas.enabled = false;
-            Timing.KillCoroutines(m_Coroutine);
+            
+            InventoryCanvas.enabled = !InventoryCanvas.enabled;
+            if (InventoryCanvas.enabled)
+            {
+                m_Coroutine = Timing.RunCoroutine(BillboardInventoryCoroutine());
+            }
+            else
+            {
+                Timing.KillCoroutines(m_Coroutine);
+            }
         }
     }
 
@@ -61,7 +60,7 @@ public class Inventory : MonoBehaviour
 
     public void Start()
     {
-        MyController.Avatar.ControllerInput.ButtonStateChanged += LeftGrip_Inventory;
+        MyController.Avatar.ControllerInput.ButtonStateChanged += LeftTrigger_Inventory;
         InventoryCanvas.enabled = false;
     }
     #endregion

@@ -12,6 +12,7 @@ public class EnemyDieState : EnemyBaseState
 
     public override void CheckSwitchState()
     {
+        GameManager.Instance.EnemyDie(Enemy.Ghoul, Ctx.GetEnemyBehaviour.Data.Reward);
         Ctx.GetEnemyBehaviour.PoolReference.OnReturnToPool(Ctx.GetEnemyBehaviour);
     }
 

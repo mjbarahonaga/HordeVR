@@ -120,6 +120,7 @@ public class TrapBehaviour : MonoBehaviour
     private void Start()
     {
         _idAttack = Animator.StringToHash("Attack");
+        SetUp(Data);
     }
 
     private void OnTriggerEnter(Collider other)
