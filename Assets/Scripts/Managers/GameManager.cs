@@ -37,13 +37,16 @@ public class GameManager : MonoBehaviour
     [Title("Game Variables")]
     public static Action OnStartingGame;
     public int Lives = 30;
+    public TextMeshProUGUI LivesText;
     public int Money = 3000;
+    public TextMeshProUGUI MoneyText;
     public Transform EnemyGoal;
     public PlayerController Player;
 
     [Title("Info Game")]
     [ReadOnly] public int CurrentEnemies = 0;
     [ReadOnly] public int CurrentHorde = 0;
+    public TextMeshProUGUI CurrentHordeText;
     [ReadOnly] public int EnemiesKilled = 0;
     [ReadOnly] public int Score = 0;
     [ReadOnly] public Vector3 _positionPlayer;
@@ -85,6 +88,7 @@ public class GameManager : MonoBehaviour
         _alreadyStarted = true;
         OnStartingGame?.Invoke();
         AmbienceAudioSource?.Play();
+        MoneyText.text = Money.ToString();
         NewHorde();
     }
 
@@ -94,6 +98,7 @@ public class GameManager : MonoBehaviour
         //type if we wanted to know how many died of this type
         Score += reward;
         Money += reward;
+        MoneyText.text = Money.ToString();
 
         --CurrentEnemies;
 
@@ -117,6 +122,7 @@ public class GameManager : MonoBehaviour
         {
             CurrentEnemies += EnemySpawnByHordeList[i].SpawnEnemies(EnemyGoal.position);
         }
+        CurrentHordeText.text = CurrentHorde.ToString();
     }
 
     public void EndGame()
@@ -127,6 +133,7 @@ public class GameManager : MonoBehaviour
     public void EnemyReachedGoal()
     {
         --Lives;
+        LivesText.text = Lives.ToString();
         --CurrentEnemies;
 
 
@@ -201,6 +208,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         Money -= price;
+        MoneyText.text = Money.ToString();
         PlaceTrap(trap, pos, rot);
     }
 
