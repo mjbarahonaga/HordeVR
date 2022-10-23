@@ -2302,6 +2302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemiesPool:
   - {fileID: 2089591905}
+  - {fileID: 1155975957}
 --- !u!1001 &215840408
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4040,8 +4041,12 @@ MonoBehaviour:
     HowMany: 6
     PerHorde: 1
     DelayBetweenSpawn: 1
+  - Type: 2
+    HowMany: 1
+    PerHorde: 3
+    DelayBetweenSpawn: 1
   Lives: 30
-  Money: 3000
+  Money: 600
   EnemyGoal: {fileID: 1587300985}
   Player: {fileID: 1122531495}
   CurrentEnemies: 0
