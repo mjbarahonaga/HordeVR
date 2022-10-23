@@ -9,6 +9,7 @@ public class Ghost
 {
     public TypeTrap Type;
     public GameObject Trap;
+    public bool IsPivotChange = false;
     [ReadOnly] public MeshRenderer[] Renderers;
     [ReadOnly] public Transform CachedTransform;
     [ReadOnly] public BoxCollider CachedCollider;
@@ -119,9 +120,19 @@ public class GhostManager : Singleton<GhostManager>
             int length = Ghosts.Count;
             for (int i = 0; i < length; i++)
             {
-                Ghosts[i].Renderers = Ghosts[i].Trap.GetComponentsInChildren<MeshRenderer>();
-                Ghosts[i].CachedTransform = Ghosts[i].Trap.GetComponent<Transform>();
-                Ghosts[i].CachedCollider = Ghosts[i].Trap.GetComponent<BoxCollider>();
+                if (Ghosts[i].IsPivotChange)
+                {
+                    Ghosts[i].CachedTransform = Ghosts[i].Trap.transform.GetChild(0).GetComponent<Transform>();
+                    Ghosts[i].Renderers = Ghosts[i].Trap.transform.GetChild(0).GetComponentsInChildren<MeshRenderer>();
+                    Ghosts[i].CachedCollider = Ghosts[i].Trap.transform.GetChild(0).GetComponentInChildren<BoxCollider>();
+                }
+                else
+                {
+                    Ghosts[i].CachedTransform = Ghosts[i].Trap.GetComponent<Transform>();
+                    Ghosts[i].Renderers = Ghosts[i].Trap.GetComponentsInChildren<MeshRenderer>();
+                    Ghosts[i].CachedCollider = Ghosts[i].Trap.GetComponentInChildren<BoxCollider>();
+                }
+
                 Ghosts[i].ChangeMaterial(Valid);
             }
             m_TrapLayer = LayerMask.GetMask("Traps");
@@ -132,11 +143,15 @@ public class GhostManager : Singleton<GhostManager>
     private void OnDrawGizmos()
     {
         if (Ghosts.Count == 0) return;
-
-        var center = Ghosts[0].CachedTransform.TransformPoint(Ghosts[0].CachedCollider.center);
-        var halfSize = Ghosts[0].CachedTransform.TransformVector(Ghosts[0].CachedCollider.size);
-        Gizmos.color = Color.red;   
-        Gizmos.DrawWireCube(center, halfSize);
+        var offset = new Vector3(0.1f, 0.1f, 0.1f);
+        for (int i = 0; i < Ghosts.Count; i++)
+        {
+            var center = Ghosts[i].CachedTransform.TransformPoint(Ghosts[i].CachedCollider.center);
+            var halfSize = Ghosts[i].CachedTransform.TransformVector(Ghosts[i].CachedCollider.size) + offset;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(center, halfSize);
+        }
+        
     }
 #endif
     #endregion

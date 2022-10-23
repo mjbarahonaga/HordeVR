@@ -5,6 +5,7 @@ using MEC;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(AudioSource))]
 public class TrapBehaviour : MonoBehaviour
 {
     #region Public variables
@@ -42,11 +43,18 @@ public class TrapBehaviour : MonoBehaviour
     public Vector3Int CenterPosition { get; private set; }
     #endregion
 
+    #region SOUNDS
+    [FoldoutGroup("Audio", Expanded = false)]
+    public AudioClip StartAnimationSound;
+    [FoldoutGroup("Audio"),SerializeField,ReadOnly] AudioSource _audioSource;
+    #endregion
+
     public void SetUp(DataTrap data)
     {
         _damage = data.Damage;
         _coolDown = data.CoolDown;
         _price = data.Price;
+        _audioSource.clip = StartAnimationSound;
     }
     
     private IEnumerator<float> MyUpdateCoroutine()
@@ -67,6 +75,7 @@ public class TrapBehaviour : MonoBehaviour
     {
         // Call animation
         _animator.SetTrigger(_idAttack);
+        _audioSource?.Play();
 
         _isReadyToAttack = false;
         int length = _enemiesInside.Count;
@@ -158,6 +167,7 @@ public class TrapBehaviour : MonoBehaviour
             if(_animator == null) _animator = GetComponent<Animator>();
             if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider>();
             if(_myTransform == null) _myTransform = GetComponent<Transform>();
+            if(_audioSource == null) _audioSource = GetComponent<AudioSource>();
         });
     }
     #endregion

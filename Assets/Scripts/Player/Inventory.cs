@@ -9,6 +9,8 @@ using MEC;
 
 public class Inventory : MonoBehaviour
 {
+    public static Action CloseInventory;
+
     public UxrStandardAvatarController MyController;
     public Canvas InventoryCanvas;
     public Transform LocationToShow;
@@ -30,6 +32,7 @@ public class Inventory : MonoBehaviour
             }
             else
             {
+                CloseInventory?.Invoke();
                 Timing.KillCoroutines(m_Coroutine);
             }
         }

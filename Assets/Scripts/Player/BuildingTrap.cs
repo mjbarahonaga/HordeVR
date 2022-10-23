@@ -171,15 +171,17 @@ public class BuildingTrap : MonoBehaviour
     private void Start()
     {
         Assert.IsNotNull(Laser);    //< We expect to have this reference
-        m_TrapLayer = 1 << 10;
+        m_TrapLayer = 1 << 10 ;
         m_TrapLayer = ~m_TrapLayer; // Hardcoded, to ignore layer traps
         MyController.Avatar.ControllerInput.ButtonStateChanged += PlaceTrap;
         InventorySelection.OnSendTypeSelected += ReceiveSelection;
+        Inventory.CloseInventory += UnselectTrap;
     }
 
     private void OnDestroy()
     {
         InventorySelection.OnSendTypeSelected -= ReceiveSelection;
+        Inventory.CloseInventory -= UnselectTrap;
     }
 
     #endregion
