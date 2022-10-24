@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
     [ReadOnly] public Vector3 _positionPlayer;
     public Vector3 PlayerPosition { get => _positionPlayer; }
     private bool _alreadyStarted = false;
+    private bool _alreadyFinished = false;
     #endregion
 
 
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour
         _alreadyStarted = true;
         OnStartingGame?.Invoke();
         AmbienceAudioSource?.Play();
-        MoneyText.text = Money.ToString();
+        
         NewHorde();
     }
 
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        _alreadyFinished = true;
         Timing.RunCoroutine(EndGameCoroutine());
     }
 
@@ -142,7 +144,7 @@ public class GameManager : MonoBehaviour
             CheckEndHorde();
             return;
         }
-        if(Lives == 0) EndGame();
+        if(Lives < 0 && _alreadyFinished == false) EndGame();
 
     }
 
@@ -246,13 +248,17 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+ 
     }
 
     private void Start()
     {
         UxrManager.AvatarMoved += PlayerMoved;
         _positionPlayer = Player.transform.position;
-        
+
+        MoneyText.text = Money.ToString();
+        CurrentHordeText.text = CurrentHorde.ToString();
+        LivesText.text = Lives.ToString();
     }
 
     private void OnDestroy()

@@ -15,5 +15,5 @@ MonoBehaviour:
   Type: 2
   Surface: 4
   Damage: 15
-  CoolDown: 4
+  CoolDown: 2
   Price: 300

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5381898428963507964}
   - component: {fileID: 5381898428962507836}
   - component: {fileID: 7004099896131016469}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Arrow_Trap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5381898428964802270}
   - component: {fileID: 5381898428963507966}
   - component: {fileID: 5381898428962507838}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Spikes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9073061115983173549}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GhostArrowPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

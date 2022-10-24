@@ -120,6 +120,7 @@ public class GhostManager : Singleton<GhostManager>
             int length = Ghosts.Count;
             for (int i = 0; i < length; i++)
             {
+                
                 if (Ghosts[i].IsPivotChange)
                 {
                     Ghosts[i].CachedTransform = Ghosts[i].Trap.transform.GetChild(0).GetComponent<Transform>();
