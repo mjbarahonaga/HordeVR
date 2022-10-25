@@ -60,6 +60,7 @@ public class WeaponBehaviour : MonoBehaviour
 
     private void Shoot()
     {
+        if (GameManager.Instance.Player.IsDie) return;
         if(MyAmmo && MyAmmo.Rounds > 0)
         {
             MyAmmo.Rounds--;

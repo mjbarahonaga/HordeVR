@@ -23,7 +23,7 @@ public class EnemyRunState : EnemyBaseState
 
     public override void CheckSwitchState()
     {
-        if(Ctx.GetEnemyBehaviour.PlayerInRange())
+        if(Ctx.GetEnemyBehaviour.PlayerInRange() && !GameManager.Instance.Player.IsDie)
         {
             Ctx.GetEnemyBehaviour.SetTarget(GameManager.Instance.Player.gameObject, Targets.Player);
             SwitchState(Factory.Chase());

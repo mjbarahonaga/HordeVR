@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     public PlayerController Player;
 
     [Title("Info Game")]
+    public Transform LocationToEndGame;
     [ReadOnly] public int CurrentEnemies = 0;
     [ReadOnly] public int CurrentHorde = 0;
     public TextMeshProUGUI CurrentHordeText;
@@ -74,6 +75,7 @@ public class GameManager : MonoBehaviour
     [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI AmountScoreText;
     [FoldoutGroup("FinalCanvas")] public TextMeshProUGUI ExitTimer;
 
+    [FoldoutGroup("FinalCanvas")][SerializeField, ReadOnly] private CanvasGroup m_CanvasContainer;
     [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup EnemiesKT_Group;
     [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup AmountK_Group;
     [FoldoutGroup("FinalCanvas")] [SerializeField, ReadOnly] private CanvasGroup Score_Group;
@@ -128,7 +130,12 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        UxrAvatar.LocalAvatar.CameraFade.EnableFadeColor(Color.black, 1f);
         _alreadyFinished = true;
+        UxrManager.Instance.TeleportLocalAvatar(LocationToEndGame.position, LocationToEndGame.rotation);
+        AmountKilledText.text = EnemiesKilled.ToString();
+        AmountScoreText.text = Score.ToString();
+
         Timing.RunCoroutine(EndGameCoroutine());
     }
 
@@ -151,6 +158,9 @@ public class GameManager : MonoBehaviour
     public IEnumerator<float> EndGameCoroutine()
     {
         CanvasContainer.enabled = true;
+
+        UxrCanvasAlphaTween.FadeIn(m_CanvasContainer, 1.0f);
+        yield return Timing.WaitForSeconds(1.5f);
 
         UxrCanvasAlphaTween.FadeIn(EnemiesKT_Group, 1.5f);
         yield return Timing.WaitForSeconds(1.5f);
@@ -232,6 +242,7 @@ public class GameManager : MonoBehaviour
             if (AmbienceAudioSource) AmbienceAudioSource.clip = AmbienceSound;
             if (HordeAudioSource) HordeAudioSource.clip = NewHordeSound;
 
+            if (CanvasContainer && m_CanvasContainer == null) m_CanvasContainer = CanvasContainer.GetComponent<CanvasGroup>();
             if (EnemiesKilledText && EnemiesKT_Group == null) EnemiesKT_Group = EnemiesKilledText.GetComponent<CanvasGroup>();
             if (AmountKilledText && AmountK_Group == null) AmountK_Group = AmountKilledText.GetComponent<CanvasGroup>();
             if (ScoreText && Score_Group == null) Score_Group = ScoreText.GetComponent<CanvasGroup>();
@@ -279,6 +290,9 @@ public class GameManager : MonoBehaviour
         var currentSpawn = randomSpawn[0];
         PoolEnemy_Manager.Instance.SpawnEnemy(Enemy.Ghoul, EnemyGoal.position, currentSpawn);
     }
+
+    [Button("TestEndGame")]
+    public void TestEnd() => EndGame();
 #endif
 }
 

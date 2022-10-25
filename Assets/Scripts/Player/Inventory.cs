@@ -19,6 +19,7 @@ public class Inventory : MonoBehaviour
 
     private void LeftTrigger_Inventory(object sender, UxrInputButtonEventArgs e)
     {
+        if (GameManager.Instance.Player.IsDie) return;
         if (e.HandSide == UxrHandSide.Right) return;
 
         if (e.Button == UxrInputButtons.Trigger &&
@@ -65,6 +66,8 @@ public class Inventory : MonoBehaviour
     {
         MyController.Avatar.ControllerInput.ButtonStateChanged += LeftTrigger_Inventory;
         InventoryCanvas.enabled = false;
+
+        PlayerController.KilledPlayer += () => InventoryCanvas.enabled = false;
     }
     #endregion
 }
