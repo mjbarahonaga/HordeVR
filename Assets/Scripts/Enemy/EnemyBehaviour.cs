@@ -94,6 +94,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
 
+    public void LookAtTarget() => _myTransform.LookAt(_targetPos);
+
     public void InstanceEnemy(GameObject prefab)
     {
         InstantiatePrefab = prefab;
@@ -113,7 +115,7 @@ public class EnemyBehaviour : MonoBehaviour
         _navMeshAgent.speed = Data.Speed;
         //_navMeshAgent.stoppingDistance = DistanceAttacking - 1f < 0 ? 0 : DistanceAttacking - 1f;
         _reward = Data.Reward;
-        _currentHP = Data.HP;
+        _currentHP = Data.HP + Data.IncreasePerLevel;
     }
 
     public void TakeFromPool()

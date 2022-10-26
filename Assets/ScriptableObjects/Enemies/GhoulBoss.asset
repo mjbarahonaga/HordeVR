@@ -15,7 +15,8 @@ MonoBehaviour:
   EnemyType: 2
   Damage: 20
   HP: 200
+  IncreasePerLevel: 10
   Speed: 2.4
-  Reward: 80
+  Reward: 100
   Prefab: {fileID: 1503022145182912436, guid: e5b9413515adf4444ba490673f0e8ddc, type: 3}
   MaxPool: 20

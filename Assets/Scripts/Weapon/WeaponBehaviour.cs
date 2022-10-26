@@ -11,6 +11,7 @@ using UnityEngine;
 public class WeaponBehaviour : MonoBehaviour
 {
     public Bullet BulletType;
+    public bool InfiniteBullets = false;
 
     public Transform LocationToShoot;
 
@@ -61,7 +62,7 @@ public class WeaponBehaviour : MonoBehaviour
     private void Shoot()
     {
         if (GameManager.Instance.Player.IsDie) return;
-        if(MyAmmo && MyAmmo.Rounds > 0)
+        if((MyAmmo && MyAmmo.Rounds > 0) || InfiniteBullets)
         {
             MyAmmo.Rounds--;
             PoolBullet_Manager.Instance.SpawnBullet(BulletType, LocationToShoot.position, LocationToShoot.forward);

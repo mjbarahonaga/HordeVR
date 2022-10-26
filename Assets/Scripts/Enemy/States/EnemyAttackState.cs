@@ -45,7 +45,8 @@ public class EnemyAttackState : EnemyBaseState
                 {
                     if (Ctx.GetEnemyBehaviour.CurrentTargetInRangeOfAttack())
                     {
-                        Ctx.TriggetAnimation(EnemyStates.Attack); 
+                        Ctx.GetEnemyBehaviour.LookAtTarget();
+                        Ctx.TriggetAnimation(EnemyStates.Attack);
                         return;
                     }
                     else if (Ctx.GetEnemyBehaviour.PlayerInRange())

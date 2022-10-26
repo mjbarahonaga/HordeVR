@@ -273,7 +273,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 0.74
-  m_BaseOffset: 0
+  m_BaseOffset: 0.1
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 1
 --- !u!65 &689946946337615283
@@ -287,8 +287,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.6793947, z: 1}
-  m_Center: {x: 0, y: 0.8776996, z: 0}
+  m_Size: {x: 1, y: 1.573317, z: 1}
+  m_Center: {x: 0, y: 0.93073845, z: 0}
 --- !u!82 &4298426758499925279
 AudioSource:
   m_ObjectHideFlags: 0

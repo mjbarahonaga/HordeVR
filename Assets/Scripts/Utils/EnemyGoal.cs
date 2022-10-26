@@ -6,8 +6,11 @@ public class EnemyGoal : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        GameManager.Instance.EnemyReachedGoal();
-        EnemyBehaviour enemyBehaviour = other.GetComponent<EnemyBehaviour>();
-        enemyBehaviour.PoolReference.OnReturnToPool(enemyBehaviour);
+        
+        if(other.TryGetComponent(out EnemyBehaviour enemy))
+        {
+            GameManager.Instance.EnemyReachedGoal();
+            enemy.PoolReference.OnReturnToPool(enemy);
+        }
     }
 }

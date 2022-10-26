@@ -126,7 +126,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.2735849, g: 0.20260769, b: 0.20260769, a: 1}
-    - _Color: {r: 0.2735849, g: 0.20260769, b: 0.20260769, a: 1}
+    - _Color: {r: 0.27358484, g: 0.20260766, b: 0.20260766, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColorUI: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
